@@ -1,5 +1,5 @@
-<?php 
-include 'header.php'; 
+<?php
+include 'header.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/sistema_empresa/config/config.php';
 
 // Criar pagamento
@@ -10,10 +10,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["adicionar_pagamento"])
     $data_vencimento = $_POST["data_vencimento"];
 
     if (criarPagamento($pdo, $empresa, $descricao, $valor, $data_vencimento)) {
-        header("Location: pagamentos.php?sucesso=adicionado");
+        header("Location: index.php?page=pagamentos&sucesso=adicionado");
         exit;
     } else {
-        header("Location: pagamentos.php?erro=nao_adicionado");
+        header("Location: index.php?page=pagamentos&erro=nao_adicionado");
         exit;
     }
 }
@@ -23,10 +23,10 @@ if (isset($_GET["remover"])) {
     $id_pagamento = $_GET["remover"];
 
     if (removerPagamento($pdo, $id_pagamento)) {
-        header("Location: pagamentos.php?sucesso=removido");
+        header("Location: index.php?page=pagamentos&sucesso=removido");
         exit;
     } else {
-        header("Location: pagamentos.php?erro=nao_removido");
+        header("Location: index.php?page=pagamentos&erro=nao_removido");
         exit;
     }
 }
@@ -36,10 +36,10 @@ if (isset($_GET["confirmar"])) {
     $id_pagamento = $_GET["confirmar"];
 
     if (confirmarPagamento($pdo, $id_pagamento)) {
-        header("Location: pagamentos.php?sucesso=confirmado");
+        header("Location: index.php?page=pagamentos&sucesso=confirmado");
         exit;
     } else {
-        header("Location: pagamentos.php?erro=nao_confirmado");
+        header("Location: index.php?page=pagamentos&erro=nao_confirmado");
         exit;
     }
 }
@@ -47,7 +47,7 @@ if (isset($_GET["confirmar"])) {
 // Atualizar vencimentos manualmente
 if (isset($_GET["atualizar_vencimentos"])) {
     atualizarVencimentos($pdo);
-    header("Location: pagamentos.php?sucesso=vencimentos_atualizados");
+    header("Location: index.php?page=pagamentos&sucesso=vencimentos_atualizados");
     exit;
 }
 
@@ -62,25 +62,33 @@ $result = $pdo->query($sql);
     <!-- Exibir mensagens de sucesso ou erro -->
     <?php if (isset($_GET['sucesso'])): ?>
         <div class="alert alert-success">
-            <?php 
-                if ($_GET['sucesso'] == 'adicionado') echo "Pagamento adicionado com sucesso!";
-                if ($_GET['sucesso'] == 'removido') echo "Pagamento removido com sucesso!";
-                if ($_GET['sucesso'] == 'confirmado') echo "Pagamento confirmado!";
-                if ($_GET['sucesso'] == 'vencimentos_atualizados') echo "Vencimentos atualizados!";
+            <?php
+            if ($_GET['sucesso'] == 'adicionado')
+                echo "Pagamento adicionado com sucesso!";
+            if ($_GET['sucesso'] == 'removido')
+                echo "Pagamento removido com sucesso!";
+            if ($_GET['sucesso'] == 'confirmado')
+                echo "Pagamento confirmado!";
+            if ($_GET['sucesso'] == 'vencimentos_atualizados')
+                echo "Vencimentos atualizados!";
             ?>
         </div>
     <?php elseif (isset($_GET['erro'])): ?>
         <div class="alert alert-danger">
-            <?php 
-                if ($_GET['erro'] == 'nao_adicionado') echo "Erro ao adicionar pagamento!";
-                if ($_GET['erro'] == 'nao_removido') echo "Erro ao remover pagamento!";
-                if ($_GET['erro'] == 'nao_confirmado') echo "Erro ao confirmar pagamento!";
+            <?php
+            if ($_GET['erro'] == 'nao_adicionado')
+                echo "Erro ao adicionar pagamento!";
+            if ($_GET['erro'] == 'nao_removido')
+                echo "Erro ao remover pagamento!";
+            if ($_GET['erro'] == 'nao_confirmado')
+                echo "Erro ao confirmar pagamento!";
             ?>
         </div>
     <?php endif; ?>
 
     <!-- Botões -->
-    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdicionar">Adicionar Pagamento</button>
+    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdicionar">Adicionar
+        Pagamento</button>
     <a href="?atualizar_vencimentos=1" class="btn btn-secondary mb-3">Atualizar Vencimentos</a>
 
     <!-- Modal para adicionar pagamento -->
@@ -140,18 +148,20 @@ $result = $pdo->query($sql);
                             <td>R$ <?php echo number_format($row["valor"], 2, ',', '.'); ?></td>
                             <td><?php echo date("d/m/Y", strtotime($row["data_vencimento"])); ?></td>
                             <td>
-                                <span class="badge <?php echo ($row["status"] == 'pendente') ? 'bg-danger' : (($row["status"] == 'solicitado') ? 'bg-warning' : 'bg-success'); ?>">
+                                <span
+                                    class="badge <?php echo ($row["status"] == 'pendente') ? 'bg-danger' : (($row["status"] == 'solicitado') ? 'bg-warning' : 'bg-success'); ?>">
                                     <?php echo ucfirst($row["status"] ?? 'desconhecido'); ?>
                                 </span>
                             </td>
                             <td>
-                                <a href="?remover=<?php echo $row["id"]; ?>" class="btn btn-danger btn-sm" 
-                                   onclick="return confirm('Tem certeza que deseja remover este pagamento?')">
+                                <a href="index.php?page=pagamentos&remover=<?php echo $row['id']; ?>"
+                                    class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Tem certeza que deseja remover este pagamento?')">
                                     Remover
                                 </a>
-
                                 <?php if ($row["status"] == "pendente") { ?>
-                                    <a href="?confirmar=<?php echo $row["id"]; ?>" class="btn btn-warning btn-sm">Confirmar</a>
+                                    <a href="index.php?page=pagamentos&confirmar=<?php echo $row["id"]; ?>"
+                                        class="btn btn-warning btn-sm">Confirmar</a>
                                 <?php } ?>
                             </td>
                         </tr>

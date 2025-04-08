@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION["user_id"] = $usuario["id"];
         $_SESSION["user_name"] = $usuario["nome"];
         $_SESSION["user_role"] = $usuario["setor"];
-        header("Location: ../views/dashboard.php");
+        header("Location: ../index.php");
         exit;
     } else {
         $erro = "Nome de usuário ou senha incorretos!";

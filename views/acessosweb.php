@@ -1,4 +1,4 @@
-<?php 
+<?php
 // Iniciar sessão antes de qualquer outra coisa
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -20,10 +20,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["adicionar_acesso"])) {
 
     $stmt = $pdo->prepare("INSERT INTO acessos_sites (site, usuario, senha) VALUES (?, ?, ?)");
     if ($stmt->execute([$site, $usuario, $senha])) {
-        header("Location: senhasti.php?sucesso=adicionado");
+        header("Location: index.php?page=acessosweb&sucesso=adicionado");
         exit;
     } else {
-        header("Location: senhasti.php?erro=nao_adicionado");
+        header("Location: index.php?page=acessosweb&erro=nao_adicionado");
         exit;
     }
 }
@@ -33,13 +33,14 @@ if (isset($_GET["remover"])) {
     $id = $_GET["remover"];
     $stmt = $pdo->prepare("DELETE FROM acessos_sites WHERE id = ?");
     if ($stmt->execute([$id])) {
-        header("Location: senhasti.php?sucesso=removido");
+        header("Location: index.php?page=acessosweb&sucesso=removido");
         exit;
     } else {
-        header("Location: senhasti.php?erro=nao_removido");
+        header("Location: index.php?page=acessosweb&erro=nao_removido");
         exit;
     }
 }
+
 
 // Buscar acessos
 $result = $pdo->query("SELECT * FROM acessos_sites ORDER BY site ASC");
@@ -87,14 +88,19 @@ include 'header.php';
                 <tbody>
                     <?php while ($row = $result->fetch(PDO::FETCH_ASSOC)) { ?>
                         <tr>
-                            <td><a href="<?= htmlspecialchars($row["site"]); ?>" target="_blank"><?= htmlspecialchars($row["site"]); ?></a></td>
+                            <td>
+                                <a href="<?= htmlspecialchars($row["site"]); ?>" target="_blank">
+                                    <?= htmlspecialchars($row["site"]); ?>
+                                </a>
+                            </td>
                             <td><?= htmlspecialchars($row["usuario"]); ?></td>
                             <td><?= htmlspecialchars($row["senha"]); ?></td>
                             <td>
-                                <a href="?remover=<?= $row["id"]; ?>" class="btn btn-danger btn-sm"
-                                   onclick="return confirm('Deseja realmente remover este acesso?')">
-                                   <i class="bi bi-trash"></i> Remover
+                                <a href="index.php?page=acessosweb&remover=<?= $row["id"]; ?>" class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Deseja realmente remover este acesso?')">
+                                    <i class="bi bi-trash"></i> Remover
                                 </a>
+
                             </td>
                         </tr>
                     <?php } ?>
@@ -102,12 +108,13 @@ include 'header.php';
             </table>
         </div>
     </div>
+
 </div>
 
 <!-- Modal para adicionar acesso -->
 <div class="modal fade" id="modalAdicionarAcesso" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form method="POST" class="modal-content">
+        <form method="POST" action="index.php?page=acessosweb" class="modal-content">
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title" id="modalLabel"><i class="bi bi-plus-circle"></i> Novo Acesso</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
@@ -115,7 +122,8 @@ include 'header.php';
             <div class="modal-body">
                 <div class="mb-3">
                     <label for="site" class="form-label"><i class="bi bi-globe"></i> Site</label>
-                    <input type="url" class="form-control" name="site" id="site" required placeholder="https://exemplo.com">
+                    <input type="url" class="form-control" name="site" id="site" required
+                        placeholder="https://exemplo.com">
                 </div>
                 <div class="mb-3">
                     <label for="usuario" class="form-label"><i class="bi bi-person"></i> Usuário</label>

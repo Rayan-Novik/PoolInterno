@@ -1,12 +1,11 @@
-<?php 
-include 'header.php'; 
+<?php
 include $_SERVER['DOCUMENT_ROOT'] . '/sistema_empresa/config/config.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 if (!isset($_SESSION["user_role"]) || !in_array($_SESSION["user_role"], ["admin", "ti"])) {
-    header("Location: index.php");
+    header("Location: index.php?page=home");
     exit;
 }
 
@@ -21,10 +20,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["adicionar_usuario"])) 
 
     $stmt = $pdo->prepare("INSERT INTO usuarios (nome, email, senha_hash, cargo, setor, token) VALUES (?, ?, ?, ?, ?, ?)");
     if ($stmt->execute([$nome, $email, $senha, $cargo, $setor, $token])) {
-        header("Location: acessos.php?sucesso=adicionado");
+        header("Location: index.php?page=acessos&sucesso=adicionado");
         exit;
     } else {
-        header("Location: acessos.php?erro=nao_adicionado");
+        header("Location: index.php?page=acessos&erro=nao_adicionado");
         exit;
     }
 }
@@ -39,10 +38,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["editar_usuario"])) {
 
     $stmt = $pdo->prepare("UPDATE usuarios SET nome = ?, email = ?, cargo = ?, setor = ? WHERE id = ?");
     if ($stmt->execute([$nome, $email, $cargo, $setor, $id_usuario])) {
-        header("Location: acessos.php?sucesso=editado");
+        header("Location: index.php?page=acessos&sucesso=editado");
         exit;
     } else {
-        header("Location: acessos.php?erro=nao_editado");
+        header("Location: index.php?page=acessos&erro=nao_editado");
         exit;
     }
 }
@@ -52,10 +51,10 @@ if (isset($_GET["remover"])) {
     $id_usuario = $_GET["remover"];
     $stmt = $pdo->prepare("DELETE FROM usuarios WHERE id = ?");
     if ($stmt->execute([$id_usuario])) {
-        header("Location: acessos.php?sucesso=removido");
+        header("Location: index.php?page=acessos&sucesso=removido");
         exit;
     } else {
-        header("Location: acessos.php?erro=nao_removido");
+        header("Location: index.php?page=acessos&erro=nao_removido");
         exit;
     }
 }
@@ -119,7 +118,7 @@ $result = $pdo->query($sql);
                                     data-bs-toggle="modal" data-bs-target="#modalEditar">
                                     <i class="bi bi-pencil-square me-1"></i> Editar
                                 </button> 
-                                <a href="?remover=<?= $row["id"]; ?>" class="btn btn-danger btn-sm" 
+                                <a href="index.php?page=acessos&remover=<?= $row["id"]; ?>" class="btn btn-danger btn-sm" 
                                    onclick="return confirm('Tem certeza que deseja remover este usuário?')">
                                     <i class="bi bi-trash me-1"></i> Remover
                                 </a>
