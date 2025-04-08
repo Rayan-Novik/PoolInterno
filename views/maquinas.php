@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-include $_SERVER['DOCUMENT_ROOT'] . '/var/www/html/config/config.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/config/config.php';
 
 // Verifica se o usuário tem permissão
 if (!isset($_SESSION["user_role"]) || !in_array($_SESSION["user_role"], ["admin", "ti"])) {

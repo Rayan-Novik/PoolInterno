@@ -1,5 +1,5 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/var/www/html/config/config.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/config/config.php';
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];

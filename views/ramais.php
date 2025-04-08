@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-include $_SERVER['DOCUMENT_ROOT'] . '/var/www/html/config/config.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/config/config.php';
 
 if (!isset($_SESSION["user_role"]) || !in_array($_SESSION["user_role"], ["admin", "ti"])) {
     header("Location: index.php");
