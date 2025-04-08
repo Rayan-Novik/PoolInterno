@@ -1,5 +1,5 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/sistema_empresa/config/config.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/var/www/html/config/config.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
