@@ -1,5 +1,5 @@
 <?php
-$host = "1.1.1.208";
+$host = "localhost";
 $dbname = "sistema_web";
 $user = "root"; 
 $pass = "pool2025";
