@@ -1,5 +1,5 @@
 <?php
-include '../config/config.php';
+include '../var/www/html/config/config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = trim($_POST["nome"]);

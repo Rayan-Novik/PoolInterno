@@ -1,6 +1,6 @@
 <?php
 include 'header.php';
-include $_SERVER['DOCUMENT_ROOT'] . '/config/config.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/var/www/html/config/config.php';
 
 // Criar pagamento
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["adicionar_pagamento"])) {
