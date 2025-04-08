@@ -9,7 +9,7 @@ set /p commitmsg=Digite a mensagem do commit:
 git commit -m "%commitmsg%"
 
 echo Enviando para o GitHub...
-git push origin main
+git push origin master
 
 echo.
 echo ✅ Arquivos enviados com sucesso!
