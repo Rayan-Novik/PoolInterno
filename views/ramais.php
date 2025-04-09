@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-include __DIR__ . '/../config/config.php';  
+include __DIR__ . '/../config/config.php';
 
 if (!isset($_SESSION["user_role"]) || !in_array($_SESSION["user_role"], ["admin", "ti"])) {
     header("Location: index.php");
@@ -42,13 +42,35 @@ include 'header.php';
         font-weight: bold;
         border-radius: 10px;
         cursor: pointer;
-        transition: transform 0.2s;
+        transition: transform 0.2s, box-shadow 0.2s;
         padding: 6px;
         text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
     .ramal-card:hover {
         transform: scale(1.03);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .bg-gradient-success {
+        background: linear-gradient(135deg, #198754, #28c76f);
+        color: white;
+    }
+
+    .bg-gradient-warning {
+        background: linear-gradient(135deg, #ffc107, #ffe082);
+        color: #333;
+    }
+
+    .bg-gradient-danger {
+        background: linear-gradient(135deg, #dc3545, #f06548);
+        color: white;
+    }
+
+    .bg-gradient-secondary {
+        background: linear-gradient(135deg, #6c757d, #adb5bd);
+        color: white;
     }
 
     .ramal-porta {
@@ -74,10 +96,10 @@ include 'header.php';
         <?php foreach ($ramais as $index => $ramal): ?>
             <?php
                 $bgClass = match($ramal['status']) {
-                    'ativo' => 'bg-success text-white',
-                    'atencao' => 'bg-warning text-dark',
-                    'inativo' => 'bg-danger text-white',
-                    default => 'bg-secondary text-white'
+                    'ativo' => 'bg-gradient-success',
+                    'atencao' => 'bg-gradient-warning',
+                    'inativo' => 'bg-gradient-danger',
+                    default => 'bg-gradient-secondary'
                 };
                 $portaNumero = $index + 1;
             ?>

@@ -1,0 +1,14 @@
+.card-custom {
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    transition: transform 0.2s;
+}
+
+.card-custom:hover {
+    transform: scale(1.02);
+}
+
+.bg-gradient-blue {
+    background: linear-gradient(135deg, #007bff, #00bfff);
+    color: white;
+}

@@ -93,20 +93,16 @@ $viewPath = __DIR__ . "/views/{$page}.php"; // Caminho do conteúdo
         }
 
         .toggle-btn {
-            position: fixed;
-            top: 10px;
-            left: var(--sidebar-width);
-            z-index: 1050;
+            position: absolute;
+            top: 15px;
+            right: -20px;
             background-color: #212529;
             border: none;
             color: #fff;
-            border-radius: 0 5px 5px 0;
-            padding: 10px 12px;
-            transition: left var(--transition-speed);
-        }
-
-        .collapsed + .toggle-btn {
-            left: var(--sidebar-collapsed-width);
+            border-radius: 5px;
+            padding: 8px;
+            cursor: pointer;
+            z-index: 1050;
         }
 
         .header {
@@ -140,6 +136,10 @@ $viewPath = __DIR__ . "/views/{$page}.php"; // Caminho do conteúdo
             .content.collapsed {
                 margin-left: 0 !important;
             }
+
+            .sidebar.collapsed {
+                width: 0 !important;
+            }
         }
     </style>
 </head>
@@ -156,11 +156,12 @@ $viewPath = __DIR__ . "/views/{$page}.php"; // Caminho do conteúdo
     <a href="?page=ramais"><i class="bi bi-telephone-fill"></i><span>Ramais</span></a>
     <a href="?page=maquinas"><i class="bi bi-pc-display-horizontal"></i><span>Máquinas</span></a>
     <a href="?page=acessosweb"><i class="bi bi-shield-lock-fill"></i><span>Acessos Web</span></a>
+    <a href="?page=trafegorede"><i class="bi bi-activity"></i><span>Tráfego</span></a>
     <a href="auth/logout.php" class="text-danger"><i class="bi bi-box-arrow-right"></i><span>Sair</span></a>
-</div>
 
-<!-- Botão de Colapso -->
-<button class="toggle-btn" id="collapseBtn"><i class="bi bi-chevron-left" id="collapseIcon"></i></button>
+    <!-- Botão de Colapso Dentro do Sidebar -->
+    <button class="toggle-btn" id="collapseBtn"><i class="bi bi-chevron-left" id="collapseIcon"></i></button>
+</div>
 
 <!-- Conteúdo Principal -->
 <div class="content" id="mainContent">
@@ -215,18 +216,23 @@ $viewPath = __DIR__ . "/views/{$page}.php"; // Caminho do conteúdo
     const collapseIcon = document.getElementById('collapseIcon');
     const sidebar = document.getElementById('sidebar');
     const content = document.getElementById('mainContent');
+    const mobileToggle = document.getElementById('mobileToggle');
 
+    // Colapsa o sidebar no modo desktop
     collapseBtn.addEventListener('click', () => {
         sidebar.classList.toggle('collapsed');
         content.classList.toggle('collapsed');
 
         if (sidebar.classList.contains('collapsed')) {
             collapseIcon.classList.replace('bi-chevron-left', 'bi-chevron-right');
-            collapseBtn.style.left = '70px';
         } else {
             collapseIcon.classList.replace('bi-chevron-right', 'bi-chevron-left');
-            collapseBtn.style.left = '250px';
         }
+    });
+
+    // Colapsa/expande o sidebar no modo mobile
+    mobileToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('show');
     });
 </script>
 
