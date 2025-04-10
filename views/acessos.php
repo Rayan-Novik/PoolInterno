@@ -68,7 +68,7 @@ $result = $pdo->query($sql);
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
 <div class="container mt-4">
-    <h2>Gerenciamento de Usuários</h2>
+    <h2 class="mb-4 fw-bold"></i>CONTROLE DE USUÁRIOS</h2>
 
     <?php if (isset($_GET['sucesso'])): ?>
         <div class="alert alert-success">

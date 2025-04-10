@@ -59,7 +59,7 @@ include 'header.php';
 </style>
 
 <div class="container mt-4">
-    <h2 class="mb-4 text-center text-md-start"><i class="bi bi-graph-up-arrow"></i> Monitoramento de Tráfego de Rede</h2>
+<h2 class="mb-4 fw-bold"></i> TRÁFEGO DE REDE</h2>
 
     <div class="row g-4">
         <!-- IP Público -->

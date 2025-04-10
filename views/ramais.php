@@ -91,7 +91,7 @@ include 'header.php';
 </style>
 
 <div class="container mt-4">
-    <h2><i class="bi bi-telephone"></i> Painel de Ramais</h2>
+    <h2 class="mb-4 fw-bold"></i> PAINEL DE RAMAIS</h2>
     <div class="row mt-4">
         <?php foreach ($ramais as $index => $ramal): ?>
             <?php

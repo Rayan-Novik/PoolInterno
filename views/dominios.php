@@ -67,7 +67,7 @@ include 'header.php';
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
 <div class="container mt-4">
-    <h2><i class="bi bi-globe2"></i> Gerenciador de Domínios</h2>
+    <h2 class="mb-4 fw-bold"></i>GERENCIADOR DE DOMÍNIOS</h2>
 
     <?php if (isset($_GET['sucesso'])): ?>
         <div class="alert alert-success">

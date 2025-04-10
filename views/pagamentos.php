@@ -57,7 +57,7 @@ $result = $pdo->query($sql);
 ?>
 
 <div class="container mt-4">
-    <h2>Pagamentos</h2>
+    <h2 class="mb-4 fw-bold"></i>CONTROLE DE PAGAMENTOS</h2>
 
     <!-- Exibir mensagens de sucesso ou erro -->
     <?php if (isset($_GET['sucesso'])): ?>

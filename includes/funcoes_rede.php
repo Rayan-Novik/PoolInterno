@@ -18,7 +18,8 @@ function listarMaquinasRede(): array {
     // Cria múltiplos processos de ping em paralelo (até 30 simultâneos)
     $processos = [];
     foreach ($ips as $ip) {
-        $processos[$ip] = popen("ping -n 1 -w 100 $ip", 'r');
+        // Adaptado para Ubuntu/Linux
+        $processos[$ip] = popen("ping -c 1 -W 1 $ip", 'r');
         usleep(10000); // evita overload
     }
 
@@ -26,7 +27,7 @@ function listarMaquinasRede(): array {
     foreach ($processos as $ip => $proc) {
         $saida = stream_get_contents($proc);
         pclose($proc);
-        if (strpos($saida, 'TTL=') !== false) {
+        if (strpos($saida, 'ttl=') !== false || strpos($saida, 'TTL=') !== false) {
             $ipsAtivos[] = $ip;
         }
     }
