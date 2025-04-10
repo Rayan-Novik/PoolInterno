@@ -1,6 +1,6 @@
 <?php
 include 'header.php';
-include __DIR__ . '/../config/config.php';  
+include __DIR__ . '/../config/config.php';
 
 // Criar pagamento
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["adicionar_pagamento"])) {
@@ -57,47 +57,45 @@ $result = $pdo->query($sql);
 ?>
 
 <div class="container mt-4">
-    <h2 class="mb-4 fw-bold"></i>CONTROLE DE PAGAMENTOS</h2>
+    <h2 class="mb-4 fw-bold">CONTROLE DE PAGAMENTOS</h2>
 
-    <!-- Exibir mensagens de sucesso ou erro -->
+    <!-- Mensagens -->
     <?php if (isset($_GET['sucesso'])): ?>
         <div class="alert alert-success">
             <?php
-            if ($_GET['sucesso'] == 'adicionado')
-                echo "Pagamento adicionado com sucesso!";
-            if ($_GET['sucesso'] == 'removido')
-                echo "Pagamento removido com sucesso!";
-            if ($_GET['sucesso'] == 'confirmado')
-                echo "Pagamento confirmado!";
-            if ($_GET['sucesso'] == 'vencimentos_atualizados')
-                echo "Vencimentos atualizados!";
+            if ($_GET['sucesso'] == 'adicionado') echo "Pagamento adicionado com sucesso!";
+            if ($_GET['sucesso'] == 'removido') echo "Pagamento removido com sucesso!";
+            if ($_GET['sucesso'] == 'confirmado') echo "Pagamento confirmado!";
+            if ($_GET['sucesso'] == 'vencimentos_atualizados') echo "Vencimentos atualizados!";
             ?>
         </div>
     <?php elseif (isset($_GET['erro'])): ?>
         <div class="alert alert-danger">
             <?php
-            if ($_GET['erro'] == 'nao_adicionado')
-                echo "Erro ao adicionar pagamento!";
-            if ($_GET['erro'] == 'nao_removido')
-                echo "Erro ao remover pagamento!";
-            if ($_GET['erro'] == 'nao_confirmado')
-                echo "Erro ao confirmar pagamento!";
+            if ($_GET['erro'] == 'nao_adicionado') echo "Erro ao adicionar pagamento!";
+            if ($_GET['erro'] == 'nao_removido') echo "Erro ao remover pagamento!";
+            if ($_GET['erro'] == 'nao_confirmado') echo "Erro ao confirmar pagamento!";
             ?>
         </div>
     <?php endif; ?>
 
     <!-- Botões -->
-    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdicionar">Adicionar
-        Pagamento</button>
-    <a href="?atualizar_vencimentos=1" class="btn btn-secondary mb-3">Atualizar Vencimentos</a>
+    <div class="mb-3 d-flex gap-2">
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAdicionar" title="Adicionar Pagamento">
+            <i class="bi bi-plus-lg"></i>
+        </button>
+        <a href="?atualizar_vencimentos=1" class="btn btn-primary" title="Atualizar Vencimentos">
+            <i class="bi bi-arrow-repeat"></i>
+        </a>
+    </div>
 
-    <!-- Modal para adicionar pagamento -->
+    <!-- Modal Adicionar -->
     <div class="modal fade" id="modalAdicionar" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalLabel">Adicionar Pagamento</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
                 <div class="modal-body">
                     <form method="POST">
@@ -125,50 +123,39 @@ $result = $pdo->query($sql);
         </div>
     </div>
 
-    <!-- Tabela de pagamentos -->
-    <div class="card">
-        <div class="card-header bg-secondary text-white">Lista de Pagamentos</div>
-        <div class="card-body">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Empresa</th>
-                        <th>Descrição</th>
-                        <th>Valor (R$)</th>
-                        <th>Vencimento</th>
-                        <th>Status</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($row = $result->fetch(PDO::FETCH_ASSOC)) { ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($row["empresa"]); ?></td>
-                            <td><?php echo htmlspecialchars($row["descricao"]); ?></td>
-                            <td>R$ <?php echo number_format($row["valor"], 2, ',', '.'); ?></td>
-                            <td><?php echo date("d/m/Y", strtotime($row["data_vencimento"])); ?></td>
-                            <td>
-                                <span
-                                    class="badge <?php echo ($row["status"] == 'pendente') ? 'bg-danger' : (($row["status"] == 'solicitado') ? 'bg-warning' : 'bg-success'); ?>">
-                                    <?php echo ucfirst($row["status"] ?? 'desconhecido'); ?>
-                                </span>
-                            </td>
-                            <td>
-                                <a href="index.php?page=pagamentos&remover=<?php echo $row['id']; ?>"
-                                    class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Tem certeza que deseja remover este pagamento?')">
-                                    Remover
+    <!-- Tabela responsiva -->
+    <div class="row">
+        <?php while ($row = $result->fetch(PDO::FETCH_ASSOC)) { ?>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h5 class="card-title"><?php echo htmlspecialchars($row["empresa"]); ?></h5>
+                        <p class="card-text mb-1"><strong>Descrição:</strong> <?php echo htmlspecialchars($row["descricao"]); ?></p>
+                        <p class="card-text mb-1"><strong>Valor:</strong> R$ <?php echo number_format($row["valor"], 2, ',', '.'); ?></p>
+                        <p class="card-text mb-1"><strong>Vencimento:</strong> <?php echo date("d/m/Y", strtotime($row["data_vencimento"])); ?></p>
+                        <span class="badge 
+                            <?php echo ($row["status"] == 'pendente') ? 'bg-danger' : 
+                                         (($row["status"] == 'solicitado') ? 'bg-warning' : 
+                                         'bg-success'); ?>">
+                            <?php echo ucfirst($row["status"] ?? 'desconhecido'); ?>
+                        </span>
+                        <div class="mt-3 d-flex gap-2">
+                            <a href="index.php?page=pagamentos&remover=<?php echo $row['id']; ?>"
+                               class="btn btn-danger btn-sm" title="Remover"
+                               onclick="return confirm('Tem certeza que deseja remover este pagamento?')">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                            <?php if ($row["status"] == "pendente") { ?>
+                                <a href="index.php?page=pagamentos&confirmar=<?php echo $row["id"]; ?>"
+                                   class="btn btn-warning btn-sm" title="Confirmar Pagamento">
+                                    <i class="bi bi-check-circle"></i>
                                 </a>
-                                <?php if ($row["status"] == "pendente") { ?>
-                                    <a href="index.php?page=pagamentos&confirmar=<?php echo $row["id"]; ?>"
-                                        class="btn btn-warning btn-sm">Confirmar</a>
-                                <?php } ?>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-        </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
     </div>
 </div>
 
